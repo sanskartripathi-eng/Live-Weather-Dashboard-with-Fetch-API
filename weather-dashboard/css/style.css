@@ -1,0 +1,132 @@
+  :root {
+    --font: "Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --sky-top: #1f6fd6;
+    --sky-bottom: #5aa9f0;
+    --ink: #ffffff;
+    --ink-soft: rgba(255, 255, 255, 0.78);
+    --panel: rgba(8, 18, 40, 0.28);
+    --panel-strong: rgba(8, 18, 40, 0.42);
+    --line: rgba(255, 255, 255, 0.22);
+    --danger-bg: rgba(120, 20, 30, 0.55);
+  }
+
+  /* The sky changes with live conditions and time of day */
+  body[data-sky="clear-night"]  { --sky-top: #0b1030; --sky-bottom: #2b3a7a; }
+  body[data-sky="cloud-day"]    { --sky-top: #4a6078; --sky-bottom: #8fa3b8; }
+  body[data-sky="cloud-night"]  { --sky-top: #151b28; --sky-bottom: #3a4558; }
+  body[data-sky="fog-day"]      { --sky-top: #5d6b78; --sky-bottom: #a3adb5; }
+  body[data-sky="fog-night"]    { --sky-top: #1d2229; --sky-bottom: #444c55; }
+  body[data-sky="rain-day"]     { --sky-top: #2c4560; --sky-bottom: #5f7e9c; }
+  body[data-sky="rain-night"]   { --sky-top: #0d1624; --sky-bottom: #2b3f57; }
+  body[data-sky="snow-day"]     { --sky-top: #55718f; --sky-bottom: #b4c8dc; }
+  body[data-sky="snow-night"]   { --sky-top: #1a2535; --sky-bottom: #4b5f78; }
+  body[data-sky="storm-day"]    { --sky-top: #2b2f4a; --sky-bottom: #5a5f82; }
+  body[data-sky="storm-night"]  { --sky-top: #0c0d1a; --sky-bottom: #2d2f4d; }
+
+  * { box-sizing: border-box; }
+  html { min-height: 100%; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: var(--font);
+    color: var(--ink);
+    background: linear-gradient(180deg, var(--sky-top), var(--sky-bottom)) fixed;
+    transition: background 0.8s ease;
+    line-height: 1.45;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 28px 20px 56px; }
+
+  h1 { font-size: 1.15rem; font-weight: 800; margin: 0 0 18px; letter-spacing: 0.01em; }
+
+  /* Search */
+  .bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: stretch; }
+  .field { flex: 1 1 240px; position: relative; }
+  .field input {
+    width: 100%; height: 48px; padding: 0 16px;
+    font: inherit; font-size: 1rem; color: var(--ink);
+    background: var(--panel); border: 1.5px solid var(--line); border-radius: 12px;
+    backdrop-filter: blur(8px);
+  }
+  .field input::placeholder { color: var(--ink-soft); }
+  .field input[aria-invalid="true"] { border-color: #ffb4b4; }
+  button, .seg label { font: inherit; }
+  .btn {
+    height: 48px; padding: 0 18px; cursor: pointer;
+    color: var(--ink); background: var(--panel-strong);
+    border: 1.5px solid var(--line); border-radius: 12px; font-weight: 600;
+  }
+  .btn:hover { background: rgba(8, 18, 40, 0.58); }
+  .btn.primary { background: #ffffff; color: #0d2447; border-color: #ffffff; }
+  .btn.primary:hover { background: #e9f1ff; }
+  .btn:disabled { opacity: 0.6; cursor: progress; }
+  :is(input, button):focus-visible, .seg input:focus-visible + span {
+    outline: 3px solid #ffe08a; outline-offset: 2px;
+  }
+
+  .seg { display: inline-flex; height: 48px; border: 1.5px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--panel); }
+  .seg label { display: flex; }
+  .seg input { position: absolute; opacity: 0; pointer-events: none; }
+  .seg span { display: flex; align-items: center; padding: 0 16px; cursor: pointer; font-weight: 600; }
+  .seg input:checked + span { background: #ffffff; color: #0d2447; }
+
+  .hint { min-height: 1.4em; margin: 8px 2px 0; font-size: 0.9rem; color: #ffd0d0; }
+  .recent { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 0; padding: 0; list-style: none; }
+  .chip {
+    padding: 5px 12px; cursor: pointer; font-size: 0.88rem;
+    color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 999px;
+  }
+  .chip:hover { background: var(--panel-strong); }
+
+  /* Output area */
+  #out { margin-top: 28px; }
+
+  .now { display: grid; grid-template-columns: 1fr auto; gap: 8px 24px; align-items: end; }
+  .place { font-size: clamp(1.6rem, 5vw, 2.4rem); font-weight: 800; margin: 0; line-height: 1.1; }
+  .region { margin: 4px 0 0; color: var(--ink-soft); }
+  .temp { font-size: clamp(4.5rem, 18vw, 8rem); font-weight: 800; line-height: 0.9; letter-spacing: -0.04em; margin: 18px 0 0; }
+  .temp sup { font-size: 0.4em; font-weight: 600; vertical-align: top; position: relative; top: 0.15em; letter-spacing: 0; }
+  .glyph { font-size: clamp(4rem, 14vw, 7rem); line-height: 1; text-align: right; }
+  .cond { grid-column: 1 / -1; font-size: 1.3rem; font-weight: 600; margin: 8px 0 0; }
+
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 24px 0 0; }
+  .stat { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; backdrop-filter: blur(8px); }
+  .stat dt { font-size: 0.85rem; color: var(--ink-soft); margin: 0; }
+  .stat dd { font-size: 1.35rem; font-weight: 600; margin: 2px 0 0; }
+
+  h2 { font-size: 1.05rem; font-weight: 800; margin: 32px 0 12px; }
+  .days { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+  .day {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+    padding: 14px 8px; text-align: center; backdrop-filter: blur(8px);
+  }
+  .day .dow { font-weight: 600; }
+  .day .ico { font-size: 2.2rem; line-height: 1.3; }
+  .day .hi { font-weight: 800; font-size: 1.15rem; }
+  .day .lo { color: var(--ink-soft); }
+  .day .sum { font-size: 0.78rem; color: var(--ink-soft); min-height: 2.4em; }
+
+  /* States */
+  .notice { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 22px; backdrop-filter: blur(8px); }
+  .notice h2 { margin: 0 0 6px; }
+  .notice p { margin: 0; color: var(--ink-soft); }
+  .notice.error { background: var(--danger-bg); border-color: rgba(255, 180, 180, 0.5); }
+  .notice.error p { color: #ffe3e3; }
+  .notice .btn { margin-top: 14px; height: 40px; }
+  .matches { margin-top: 20px; }
+  .matches p { font-size: 0.9rem; color: var(--ink-soft); margin: 0 0 8px; }
+
+  .skel { border-radius: 14px; background: linear-gradient(90deg, var(--panel), rgba(255,255,255,0.18), var(--panel)); background-size: 200% 100%; animation: shimmer 1.3s linear infinite; }
+  @keyframes shimmer { to { background-position: -200% 0; } }
+
+  .updated { margin-top: 22px; font-size: 0.82rem; color: var(--ink-soft); }
+  .credit { margin-top: 6px; font-size: 0.82rem; color: var(--ink-soft); }
+  .credit a { color: inherit; }
+
+  @media (max-width: 640px) {
+    .days { grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); }
+    .day .sum { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    body { transition: none; }
+    .skel { animation: none; }
+  }

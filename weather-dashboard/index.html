@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Live Weather Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-sky="clear-day">
+<main class="wrap">
+  <h1>Live Weather Dashboard</h1>
+
+  <form id="search" class="bar" novalidate>
+    <div class="field">
+      <label for="city" class="sr" style="position:absolute;left:-9999px">City name</label>
+      <input id="city" name="city" type="text" placeholder="Search for a city, e.g. Lisbon" autocomplete="off" aria-describedby="hint">
+    </div>
+    <button class="btn primary" id="go" type="submit">Search</button>
+    <button class="btn" id="locate" type="button">Use my location</button>
+    <div class="seg" role="radiogroup" aria-label="Temperature unit">
+      <label><input type="radio" name="unit" value="metric" checked><span>°C</span></label>
+      <label><input type="radio" name="unit" value="imperial"><span>°F</span></label>
+    </div>
+  </form>
+  <p class="hint" id="hint" role="alert"></p>
+  <ul class="recent" id="recent" aria-label="Recent searches"></ul>
+
+  <section id="out" aria-live="polite" aria-busy="false"></section>
+</main>
+
+<script src="js/app.js"></script>
+</body>
+</html>
